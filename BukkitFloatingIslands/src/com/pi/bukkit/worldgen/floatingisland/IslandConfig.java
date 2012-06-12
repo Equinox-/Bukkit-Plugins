@@ -138,7 +138,7 @@ public class IslandConfig {
 																// .25D, .45D,
 																// .7D, .85D,
 																// 95D };
-	public double[] islandRarityMax = { 0.15D, 0.4D, .65D, .9D };// { .05D, .2D,
+	public double[] islandRarityMax = { 0.2D, 0.45D, .7D, .95D };// { .05D, .2D,
 																	// .375D,
 																	// .65D,
 																	// .8D, 9D,

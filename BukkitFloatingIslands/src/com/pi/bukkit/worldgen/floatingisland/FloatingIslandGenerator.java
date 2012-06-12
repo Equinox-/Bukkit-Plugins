@@ -8,6 +8,7 @@ import net.minecraft.server.WorldGenBase;
 import net.minecraft.server.WorldGenMineshaft;
 import net.minecraft.server.WorldGenVillage;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -46,17 +47,9 @@ public class FloatingIslandGenerator extends ChunkGenerator {
 		int realZ = chunkZ << 4;
 
 		LayeredOctaveNoise noise = new LayeredOctaveNoise(
-				new SimplexOctaveGenerator(new Random(99), 1), 7);
+				new SimplexOctaveGenerator(new Random(99), 1), 8);
 
 		double sizeRoot = noise.noise(0, realX << 2, realZ << 2);
-
-		/*
-		 * IslandConfig rConfig = IslandConfig.forBiome(w.getBiome(realX,
-		 * realZ));
-		 * 
-		 * noise.setScale(0, sizeRoot (rConfig.islandSizeMax -
-		 * rConfig.islandSizeMin) + rConfig.islandSizeMin); // mask
-		 */
 
 		byte[] data = new byte[32768];
 		for (int x = 0; x < 16; x++) {
@@ -67,11 +60,12 @@ public class FloatingIslandGenerator extends ChunkGenerator {
 				IslandConfig config = IslandConfig.forBiome(w.getBiome(noiseX,
 						noiseZ));
 
-				noise.setScale(0, 0.01D);/*TODO
-										 * sizeRoot (config.islandSizeMax -
+				noise.setScale(0, 0.01D);/*
+										 * TODO sizeRoot (config.islandSizeMax -
 										 * config.islandSizeMin) +
 										 * config.islandSizeMin); // mask
 										 */
+				noise.setScale(7, 0.01D);// RMAsk
 
 				noise.setScale(1, 0.01D); // base
 				noise.setScale(2, 2D); // ext spike
@@ -90,45 +84,57 @@ public class FloatingIslandGenerator extends ChunkGenerator {
 					}
 				}
 				if (iLayer >= 0) {
-					int baseY = (int) (noise.noise(1, noiseX, noiseZ) * (config.baseMax[iLayer] - config.baseMin[iLayer]))
-							+ config.baseMin[iLayer];
-					int spikeHeight = (int) (noise.noise(3, noiseX, noiseZ) * (config.rootSpikeMax - config.rootSpikeMin))
-							+ config.rootSpikeMin;
-
-					int spikeNoise = (int) (noise.noise(2, noiseX, noiseZ) * (config.extSpikeMax - config.extSpikeMin))
-							+ config.extSpikeMin;
-
-					int hillSize = (int) (noise.noise(6, noiseX, noiseZ) * config.hillMax.length);
-					int hillHeight = (int) (noise.noise(4, noiseX, noiseZ) * (config.hillMax[hillSize] - config.hillMin[hillSize]))
-							+ config.hillMin[hillSize];
-					int dirtHeight = (int) (noise.noise(5, noiseX, noiseZ) * (config.dirtMax - config.dirtMin))
-							+ config.dirtMin;
-
-					for (int y = Math.max(0, Math.min(
-							baseY + hillHeight - config.minStoneMinThickness,
-							baseY
-									- Math.max(config.maxStoneMinThickness,
-											spikeHeight) + spikeNoise)); y < baseY
-							+ hillHeight; y++) {
-						data[getBlockIndex(x, y, z)] = (byte) Material.STONE
-								.getId();
+					iLayer = -1;
+					mask = noise.noise(7, noiseX, noiseZ);
+					for (int i = 0; i < config.islandRarityMin.length; i++) {
+						if (mask >= config.islandRarityMin[i]
+								&& mask < config.islandRarityMax[i]) {
+							iLayer = i;
+							break;
+						}
 					}
-					int coatingMid = (int) (noise.noise(2, noiseX, noiseZ)
-							* ((double) dirtHeight) * .85D);
-					for (int y = baseY + hillHeight; y < baseY + hillHeight
-							+ coatingMid; y++) {
-						data[getBlockIndex(x, y, z)] = (byte) config.lowerCoating
-								.getId();
-					}
+					if (iLayer >= 0) {
+						int baseZ = (int) (noise.noise(1, noiseX, noiseZ) * (config.baseMax[iLayer] - config.baseMin[iLayer]))
+								+ config.baseMin[iLayer];
+						int spikeHeight = (int) (noise.noise(3, noiseX, noiseZ) * (config.rootSpikeMax - config.rootSpikeMin))
+								+ config.rootSpikeMin;
 
-					for (int y = baseY + hillHeight + coatingMid; y < baseY
-							+ hillHeight + dirtHeight; y++) {
-						data[getBlockIndex(x, y, z)] = (byte) config.coating
-								.getId();
-					}
+						int spikeNoise = (int) (noise.noise(2, noiseX, noiseZ) * (config.extSpikeMax - config.extSpikeMin))
+								+ config.extSpikeMin;
 
-					data[getBlockIndex(x, baseY + hillHeight + dirtHeight, z)] = (byte) config.topCoating
-							.getId();
+						int hillSize = (int) (noise.noise(6, noiseX, noiseZ) * config.hillMax.length);
+						int hillHeight = (int) (noise.noise(4, noiseX, noiseZ) * (config.hillMax[hillSize] - config.hillMin[hillSize]))
+								+ config.hillMin[hillSize];
+						int dirtHeight = (int) (noise.noise(5, noiseX, noiseZ) * (config.dirtMax - config.dirtMin))
+								+ config.dirtMin;
+
+						for (int y = Math.max(0, Math.min(
+								baseZ + hillHeight
+										- config.minStoneMinThickness,
+								baseZ
+										- Math.max(config.maxStoneMinThickness,
+												spikeHeight) + spikeNoise)); y < baseZ
+								+ hillHeight; y++) {
+							data[getBlockIndex(x, y, z)] = (byte) Material.STONE
+									.getId();
+						}
+						int coatingMid = (int) (noise.noise(2, noiseX, noiseZ)
+								* ((double) dirtHeight) * .85D);
+						for (int y = baseZ + hillHeight; y < baseZ + hillHeight
+								+ coatingMid; y++) {
+							data[getBlockIndex(x, y, z)] = (byte) config.lowerCoating
+									.getId();
+						}
+
+						for (int y = baseZ + hillHeight + coatingMid; y < baseZ
+								+ hillHeight + dirtHeight; y++) {
+							data[getBlockIndex(x, y, z)] = (byte) config.coating
+									.getId();
+						}
+
+						data[getBlockIndex(x, baseZ + hillHeight + dirtHeight,
+								z)] = (byte) config.topCoating.getId();
+					}
 				}
 			}
 		}
@@ -156,5 +162,64 @@ public class FloatingIslandGenerator extends ChunkGenerator {
 
 	public FloatingIslandPlugin getPlugin() {
 		return plugin;
+	}
+
+	@Override
+	public Location getFixedSpawnLocation(World w, Random rand) {
+		int chunkX = (rand.nextInt(100) - 50) << 4;
+		int chunkZ = (rand.nextInt(100) - 50) << 4;
+
+		int baseX = rand.nextInt(16);
+
+		int offX = 1;
+		while (baseX - offX >= 0 || baseX + offX < 16) {
+			int baseZ = rand.nextInt(16);
+			if (baseX - offX >= 0) {
+				int offZ = 1;
+				while (baseZ - offZ >= 0 || baseZ + offZ < 16) {
+					if (baseZ - offZ >= 0) {
+						int y = w.getHighestBlockYAt(chunkX + baseX - offX,
+								chunkZ + baseZ - offZ);
+						if (y > 0) {
+							return new Location(w, chunkX + baseX - offX, y,
+									chunkZ + baseZ - offZ);
+						}
+					}
+					if (baseZ + offZ < 16) {
+						int y = w.getHighestBlockYAt(chunkX + baseX - offX,
+								chunkZ + baseZ + offZ);
+						if (y > 0) {
+							return new Location(w, chunkX + baseX - offX, y,
+									chunkZ + baseZ + offZ);
+						}
+					}
+					offZ++;
+				}
+			}
+			if (baseX + offX < 16) {
+				int offZ = 1;
+				while (baseZ - offZ >= 0 || baseZ + offZ < 16) {
+					if (baseZ - offZ >= 0) {
+						int y = w.getHighestBlockYAt(chunkX + baseX + offX,
+								chunkZ + baseZ - offZ);
+						if (y > 0) {
+							return new Location(w, chunkX + baseX + offX, y,
+									chunkZ + baseZ - offZ);
+						}
+					}
+					if (baseZ + offZ < 16) {
+						int y = w.getHighestBlockYAt(chunkX + baseX + offX,
+								chunkZ + baseZ + offZ);
+						if (y > 0) {
+							return new Location(w, chunkX + baseX + offX, y,
+									chunkZ + baseZ + offZ);
+						}
+					}
+					offZ++;
+				}
+			}
+			offX++;
+		}
+		return getFixedSpawnLocation(w, rand);
 	}
 }

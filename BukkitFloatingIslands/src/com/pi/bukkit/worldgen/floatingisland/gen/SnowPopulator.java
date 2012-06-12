@@ -37,7 +37,6 @@ public class SnowPopulator extends BlockPopulator {
 					}
 					if (okToGen) {
 						Block below = c.getBlock(x, maxY, z);
-						System.out.println(below.getType().name());
 						if (below.getType() == Material.GRASS
 								|| below.getType() == Material.STONE
 								|| below.getType() == Material.DIRT) {
