@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="com/pi/bukkit/worldgen/floatingisland/gen/BigTreePopulator.java|com/pi/bukkit/worldgen/floatingisland/gen/DeadBushPopulator.java|com/pi/bukkit/worldgen/floatingisland/gen/FluidPopulator.java|com/pi/bukkit/worldgen/floatingisland/gen/GroundBushPopulator.java|com/pi/bukkit/worldgen/floatingisland/gen/LakePopulator.java|com/pi/bukkit/worldgen/floatingisland/gen/MegaTreePopulator.java|com/pi/bukkit/worldgen/floatingisland/gen/TreePopulator.java" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="C:/Users/Westin/java-workspace/BukkitPlugins/craftbukkit-1.2.5-R3.0.jar" sourcepath="C:/Users/Westin/java-workspace/BukkitPlugins/craftbukkit-1.2.5-R3.0.src.zip"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
