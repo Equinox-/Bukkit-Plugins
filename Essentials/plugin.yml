@@ -1,0 +1,173 @@
+name: PIEssentials
+main: essentials.Essentials
+version: 1.0
+author: Equinox_
+database: false
+description: A general plugin with useful commands for admins
+commands:
+  give:
+    aliases:
+      - g
+      - i
+      - item
+    description: Gives a player an item
+    usage: |
+           /<command> [blockname:id] [player] [amount] [damage]
+           /<command> [blockname:id] [amount] [damage]
+           /<command> [blockname:id] [amount]
+           /<command> [blockname:id]
+  home:
+    description: Warps a player to their home or another person's home
+    usage: |
+           /<command> [set:remove:save]
+           /<command> [player]
+           /<command> [invite:uninvite] [player]  
+  warp:
+    description: Warps a player to a warp location
+    usage: |
+           /<command> [warp name]
+           /<command> [set:remove] [warp name]
+  time:
+    description: Sets the time
+    usage: |
+           /<command> [day:night:time] [lock]
+           /<command> unlock
+  spawn:
+    description: Sets the spawn and warps to spawn
+    usage: |
+           /<command>
+           /<command> set
+  tphere:
+    description: Teleports a player to your location
+    usage: |
+           /<command> [player]
+  tpto:
+    description: Teleports you to another player's location
+    usage: |
+           /<command> [player]
+  weather:
+    description: Sets the weather
+    usage: |
+           /<command> [off:calm:rain:snow:storm] [lock]
+           /<command> unlock
+  pm:
+    aliases:
+      - msg
+      - message
+      - tell
+    description: Sends a private message to a player
+    usage: |
+           /<command> [player] [message]
+  repair:
+    description: Repairs the item you're holding
+    usage: |
+           /<command>
+  line:
+    description: Draws a line between points a & b
+    usage: |
+           /<command> [blockname:id] [alternate]
+  linereplace:
+    description: Draws a line by replacing the specified blocks between points a & b
+    usage: |
+           /<command> [find blockname:id] [replace blockname:id] [alternate]
+  fill:
+    description: Fills a rectangular prism specified by points a & b
+    usage: |
+           /<command> [blockname:id] [alternate-x] [alternate-y] [alternate-z]
+  fillreplace:
+    description: Fills a rectangular prism specified by points a & b by replacing blocks of type [find] with blocks of type [replace]
+    usage: |
+           /<command> [find blockname:id] [replace blockname:id]
+  burn:
+    description: Burns a player
+    usage: |
+           /<command>
+           /<command> [player]
+  heal:
+    description: Heals a player
+    usage: |
+           /<command>
+           /<command> [player]
+  kill:
+    description: Kills a player
+    usage: |
+           /<command> [player]
+  copy:
+    description: Copies a cuboid to memory
+    usage: |
+           /<command>
+  paste:
+    description: Pastes a cuboid stored in the memory
+    usage: |
+           /<command>
+  mob:
+    description: Spawns a mob
+    usage: |
+           /<command> [mob:list]
+  mobspawner:
+    description: Sets the type of the mob spawner you're facing
+    usage: |
+           /<command> [mob]
+  lightning:
+    description: Strikes the block you're pointing at or a player with lightning
+    usage: |
+           /<command>
+           /<command> [player]
+  illuminate:
+    aliases:
+      - lightup
+    usage: |
+           /<command>
+    description: Illuminates a cuboid with torches
+  buildwall:
+      description: Builds all wall of specified height of specified items in the selected cuboid.  Decides the shape of the wall based on what blocks are on the bottom layer of the cuboid.
+      usage: |
+           /<command> [blockname:id] [height]
+  cuboid:
+    description: Lists the cuboid commands
+    usage: |
+           /<command>
+  clear:
+    description: Clears a cuboid
+    usage: |
+           /<command> [alternate-x] [alternate-y] [alternate-z]
+  mine:
+    description: Mines a cuboid
+    usage: |
+           /<command>
+  coat:
+    description: Coats a cuboid with the specified block, with the optional height.
+    usage: |
+           /<command> [blockname:id] <height>
+  surround:
+    description: Surrounds a cuboid with the specified block, with the optional height.
+    usage: |
+           /<command> [blockname:id] <height>
+  smooth:
+    description: Smooths a cuboid
+    usage: |
+           /<command>
+  location:
+    description: Gets current location
+    usage: |
+           /<command>
+  repeat:
+    aliases:
+      - r
+    description: Repeats the last command
+    usage: |
+           /<command>
+  protectfire:
+    description: Protects your current chunk from fire
+    usage: |
+           /<command>
+  who:
+    aliases:
+      - online
+      - list
+      - listplayers
+      - players
+    description: List online players
+    usage: |
+           /<command>
+           /<command> ops

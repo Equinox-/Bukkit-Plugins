@@ -1,0 +1,10 @@
+name: AdvancedVillageGenerator
+version: 0.1
+main: com.pi.bukkit.worldgen.villa.AdvancedVillagePlugin
+load: startup
+commands:
+  village:
+    aliases:
+    description: Starts a village
+    usage: |
+           /<command>

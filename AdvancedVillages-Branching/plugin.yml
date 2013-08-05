@@ -1,0 +1,10 @@
+name: BranchingVillageGenerator
+version: 0.1
+main: com.pi.bukkit.worldgen.villa.BranchVillagePlugin
+load: startup
+commands:
+  branchvillage:
+    aliases:
+    description: Starts a village
+    usage: |
+           /<command>

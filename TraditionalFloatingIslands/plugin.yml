@@ -1,0 +1,4 @@
+name: TraditionalIslandsGenerator
+version: 0.1
+main: com.pi.bukkit.worldgen.flatsky.SkyIslandsPlugin
+load: startup

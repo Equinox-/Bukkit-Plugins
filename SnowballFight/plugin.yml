@@ -1,0 +1,9 @@
+name: SnowballFight
+main: com.pi.bukkit.plugins.snowfight.SnowballFight
+version: 1.0
+author: 314piwm
+database: false
+description: A plugin that allows snowball fights!
+commands:
+  sfight:
+    description: The snowball fight controller

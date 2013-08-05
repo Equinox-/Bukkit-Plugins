@@ -1,0 +1,3 @@
+name: CreeperSaftey
+version: 0.1
+main: com.pi.bukkit.plugins.saftey.creepers.CreeperSafteyPlugin
